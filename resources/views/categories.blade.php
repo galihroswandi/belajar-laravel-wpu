@@ -6,7 +6,7 @@
         <ul>
             <li>
                 <a href="/categories/{{ $category->slug }}">
-                    <h1 class="fs-4">{{ $category->name }}</h1>
+                    <h1 class="fs-5">{{ $category->name }}</h1>
                 </a>
             </li>
         </ul>

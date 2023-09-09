@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AuthorsController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,33 +18,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home', [
-        "title" => "Home"
-    ]);
+Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/about', [AboutController::class, 'index']);
+
+Route::prefix('posts')->controller(PostController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/{post:slug}', 'show');
 });
 
-Route::get('/about', function () {
-    return view('about', [
-        "name" => "Jhon Doee",
-        "email" => "7PcRf@example.com",
-        "image" => "https://randomuser.me/api/portraits/men/10.jpg",
-        "title" => "About",
-    ]);
+Route::prefix('categories')->controller(CategoriesController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/{category:slug}', 'detail');
 });
 
-Route::get('/blog', [PostController::class, 'index']);
-Route::get('/post/{post:slug}', [PostController::class, 'show']);
-Route::get('/categories', function () {
-    return view('categories', [
-        'title' => 'Categories',
-        'categories' => Category::all(),
-    ]);
-});
-Route::get('/categories/{category:slug}', function (Category $category) {
-    return view('category', [
-        "title" => "Categories",
-        "posts" => $category->posts,
-        "name" => $category->name
-    ]);
-});
+Route::get('/authors/{author:username}', [AuthorsController::class, 'index']);
