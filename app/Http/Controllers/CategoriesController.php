@@ -17,10 +17,9 @@ class CategoriesController extends Controller
 
     public function detail(Category $category)
     {
-        return view('category', [
-            "title" => "Categories",
-            "posts" => $category->posts,
-            "name" => $category->name
+        return view('posts', [
+            "title" => "Post By Category : $category->name",
+            "posts" => $category->posts->load('author', 'category'),
         ]);
     }
 }
