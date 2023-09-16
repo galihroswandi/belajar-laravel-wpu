@@ -29,7 +29,4 @@ Route::prefix('posts')->controller(PostController::class)->group(function () {
 
 Route::prefix('categories')->controller(CategoriesController::class)->group(function () {
     Route::get('/', 'index');
-    Route::get('/{category:slug}', 'detail');
 });
-
-Route::get('/authors/{author:username}', [AuthorsController::class, 'index']);

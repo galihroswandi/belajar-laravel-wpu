@@ -1,23 +1,33 @@
 @extends('layouts.main')
 
 @section('container')
-    @if($_SERVER['REQUEST_URI'] !== '/posts')
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page"><a href="/posts">Posts</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ stripos($_SERVER['REQUEST_URI'], 'categories') ? 'Categories' : 'Author' }}</li>
-        </ol>
-    </nav>
-    @endif
-    <h1 class="mb-4">{{ $title }}</h1>
+    <h2 class="mb-3 text-center">{{ $title }}</h2>
+    <div class="row mb-3 justify-content-center">
+        <div class="col-md-6">
+            <form action="/posts" method="get">
+                @if(request('category'))
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+                @elseif(request('author'))
+                    <input type="hidden" name="author" value="{{ request('author') }}">
+                @endif
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search.."" name="search" autocomplete="off" value="{{ request('search') }}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end">
+        {{ $posts->links() }}
+    </div>
     @if ($posts->count())
         <div class="card mb-3">
             <img src="https://source.unsplash.com/1200x400?{{ $posts[0]->category->slug }}" class="card-img-top" alt="...">
             <div class="card-body text-center">
             <h5 class="card-title">{{ $posts[0]->title }}</h5>
                 <p class="card-text">
-                    <small class="text-body-secondary">By. <a href="/authors/{{ $posts[0]->author->username }}">{{ $posts[0]->author->name }}</a> in <a
-                    href="/categories/{{ $posts[0]->category->slug }}">{{ $posts[0]->category->name }}</a> {{ $posts[0]->created_at->diffForHumans() }}
+                    <small class="text-body-secondary">By. <a href="/posts?author={{ $posts[0]->author->username }}">{{ $posts[0]->author->name }}</a> in <a
+                    href="/posts?category={{ $posts[0]->category->slug }}">{{ $posts[0]->category->name }}</a> {{ $posts[0]->created_at->diffForHumans() }}
                     </small>
                 </p>
             <p class="card-text">{{ $posts[0]->excerpt }}</p>
@@ -30,13 +40,13 @@
                 @foreach($posts->skip(1) as $post)
                 <div class="col-lg-4 mb-3">
                     <div class="card">
-                        <a href="/categories/{{ $post->category->slug }}"><p class="position-absolute px-3 py-2 text-white fs-5" style="background-color:rgba(51, 65, 85, .7); backdrop-filter: blur(3px);">{{ $post->category->name }}</p></a>
+                        <a href="/posts?category={{ $post->category->slug }}"><p class="position-absolute px-3 py-2 text-white fs-5" style="background-color:rgba(51, 65, 85, .7); backdrop-filter: blur(3px);">{{ $post->category->name }}</p></a>
                         <img src="https://source.unsplash.com/500x400?{{ $post->category->slug }}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <a href="/posts/{{ $post->slug }}" style="color: #334155;">
                                 <h5 class="card-title">{{ $post->title }}</h5>
                             </a>
-                            <p class="mt-3 fs-6">By: <a href="/authors/{{ $post->author->username }}">{{ $post->author->name }}</a> {{ $post->created_at->diffForHumans() }}</p>
+                            <p class="mt-3 fs-6">By: <a href="/posts?author={{ $post->author->username }}">{{ $post->author->name }}</a> {{ $post->created_at->diffForHumans() }}</p>
                             <p class="card-text">{{ $post->excerpt }}</p>
                             <a href="/posts/{{ $post->slug }}" class="btn btn-primary">Read More</a>
                         </div>
