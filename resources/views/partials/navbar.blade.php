@@ -19,6 +19,11 @@
                 <li class="nav-item">
                     <a class="nav-link {{ stripos($_SERVER['REQUEST_URI'], 'categories') ? 'active' : '' }}" href="/categories">Categories</a>
                 </li>
+            </ul>   
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="/login" class="nav-link {{ stripos($_SERVER['REQUEST_URI'], 'login') ? 'active' : '' }}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                </li>
             </ul>
         </div>
     </div>
