@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\AuthorsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
@@ -33,8 +33,16 @@ Route::prefix('categories')->controller(CategoriesController::class)->group(func
     Route::get('/', 'index');
 });
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::prefix('login')->controller(LoginController::class)->group(function () {
+    Route::get('/', 'index')->name('login')->middleware('guest');
+    Route::post('/', 'authenticate');
+});
+
+Route::post('/logout', [LoginController::class, 'logout']);
+
 Route::prefix('register')->controller(RegisterController::class)->group(function () {
-    Route::get('/', 'index')->name('register');
+    Route::get('/', 'index')->name('register')->middleware('guest');
     Route::post('/', 'store');
 });
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');

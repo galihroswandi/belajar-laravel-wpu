@@ -13,7 +13,8 @@
                             @error('name') 
                                 is-invalid 
                             @enderror"
-                            id="name" placeholder="Name" autocomplete="off" value="{{ old('name') }}" required />
+                            id="name" placeholder="Name" autocomplete="off" value="{{ old('name') }}" required
+                            autofocus />
                         <label for="name">Name</label>
 
                         @error('name')
