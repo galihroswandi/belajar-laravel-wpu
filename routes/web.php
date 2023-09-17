@@ -34,4 +34,7 @@ Route::prefix('categories')->controller(CategoriesController::class)->group(func
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::get('/register', [RegisterController::class, 'index']);
+Route::prefix('register')->controller(RegisterController::class)->group(function () {
+    Route::get('/', 'index')->name('register');
+    Route::post('/', 'store');
+});
