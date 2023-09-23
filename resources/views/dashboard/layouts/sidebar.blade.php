@@ -85,7 +85,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/posts') ? 'active' : '' }}"
+                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dashboard/posts*') ? 'active' : '' }}"
                         href="/dashboard/posts">
                         <svg class="bi">
                             <use xlink:href="#file-earmark" />
@@ -107,3 +107,13 @@
         </div>
     </div>
 </div>
+
+<style>
+    .nav-item .nav-link {
+        color: #1e1d1d;
+    }
+
+    .nav-item .nav-link.active {
+        color: #006fa3bb;
+    }
+</style>
