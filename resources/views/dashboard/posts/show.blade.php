@@ -10,7 +10,12 @@
                         <a href="/dashboard/posts" class="btn btn-success"><i data-feather="arrow-left"></i> Back to all
                             posts</a>
                         <a href="" class="btn btn-warning"><i data-feather="edit"></i> Edit</a>
-                        <a href="" class="btn btn-danger"><i data-feather="x-circle"></i> Delete</a>
+                        <form action="/dashboard/posts/{{ $post->slug }}" method="POST" class="d-inline-block">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')"><i
+                                    data-feather="x-circle"></i> Delete</button>
+                        </form>
                     </div>
                     <img src="https://source.unsplash.com/1200x400?{{ $post->category->slug }}"
                         alt="{{ $post->category->name }}" style="max-width: 100%;" class="mt-3">

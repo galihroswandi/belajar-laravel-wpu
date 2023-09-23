@@ -13,7 +13,7 @@
     </svg>
 
     @if (session('success'))
-        <div class="alert alert-success d-flex align-items-center" role="alert">
+        <div class="alert alert-success d-flex align-items-center col-lg-8" role="alert">
             <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:">
                 <use xlink:href="#check-circle-fill" />
             </svg>
@@ -44,8 +44,14 @@
                         <td>
                             <a href="/dashboard/posts/{{ $post->slug }}" class="badge text-bg-info"><i
                                     data-feather="eye"></i></a>
-                            <a href="" class="badge text-bg-warning"><i data-feather="edit"></i></a>
-                            <a href="" class="badge text-bg-danger"><i data-feather="x-circle"></i></a>
+                            <a href="/dashboard/posts/{{ $post->slug }}/edit" class="badge text-bg-warning"><i
+                                    data-feather="edit"></i></a>
+                            <form action="/dashboard/posts/{{ $post->slug }}" method="POST" class="d-inline-block">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="badge text-bg-danger border-0"
+                                    onclick="return confirm('Are you sure?')"><i data-feather="x-circle"></i></button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
