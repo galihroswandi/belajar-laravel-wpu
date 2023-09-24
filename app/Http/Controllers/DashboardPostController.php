@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PharIo\Manifest\Author;
 
@@ -104,14 +105,19 @@ class DashboardPostController extends Controller
         $rules = [
             "title" => "required|max:255",
             "category_id" => "required",
+            "image" => "image|file|max:1024",
             "body" => "required"
         ];
 
-        if ($request->slug !== $post->slug) {
-            $rules['slug'] = "required|max:255|unique:posts";
-        }
+        $request->slug !== $post->slug ? $rules['slug'] = "required|max:255|unique:posts" : false;
 
         $validatedData = $request->validate($rules);
+
+        /** ===!CEK JIKA ADA IMAGE BARU!=== */
+        if ($request->file('image')) {
+            $validatedData['image'] = $request->file('image')->store('post-images');
+            $post->image !== null ? Storage::delete($post->image) : false;
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 100);
@@ -132,6 +138,7 @@ class DashboardPostController extends Controller
     {
         $post->author() !== auth()->user() ?? abort(403);
 
+        $post->image ? Storage::delete($post->image) : false;
         Post::destroy($post->id);
 
         return redirect('/dashboard/posts')->with('success', 'Post has been deleted');
