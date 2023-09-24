@@ -17,8 +17,15 @@
                                     data-feather="x-circle"></i> Delete</button>
                         </form>
                     </div>
-                    <img src="https://source.unsplash.com/1200x400?{{ $post->category->slug }}"
-                        alt="{{ $post->category->name }}" style="max-width: 100%;" class="mt-3">
+                    @if ($post->image)
+                        <div style="max-height: 400px; object-fit: cover; overflow: hidden;">
+                            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}"
+                                style="width: 100%;" class="mt-3">
+                        </div>
+                    @else
+                        <img src="https://source.unsplash.com/1200x400?{{ $post->category->slug }}"
+                            alt="{{ $post->category->name }}" style="max-width: 100%;" class="mt-3">
+                    @endif
                     <article class="my-3">
                         {!! $post->body !!}
                     </article>

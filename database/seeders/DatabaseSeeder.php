@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,6 +17,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        User::create([
+            "name" => "Administrator",
+            "username" => "admin",
+            "email" => "admin123@proton.me",
+            "email_verified_at" => now(),
+            "password" => bcrypt("password"),
+            'remember_token' => Str::random(10)
+        ]);
+
         User::factory(5)->create();
 
         // Category::factory(2)->create();
