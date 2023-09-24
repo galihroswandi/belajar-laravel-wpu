@@ -104,6 +104,24 @@
                         </button>
                     </form>
                 </li>
+            </ul>
+
+            @can('is-admin')
+                <h6
+                    class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+                    <a class="link-secondary text-decoration-none" href="#" aria-label="Add a new report">
+                        <span>Administrator</span>
+                    </a>
+                </h6>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="/dashboard/categories"
+                            class="nav-link d-flex align-items-center gap-2 {{ Request::is('categories') ? 'active' : '' }}">
+                            <i data-feather="grid" style="width: 20px;"></i>
+                            Post Categories</a>
+                    </li>
+                </ul>
+            @endcan
         </div>
     </div>
 </div>
